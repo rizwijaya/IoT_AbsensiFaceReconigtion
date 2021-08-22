@@ -5,8 +5,41 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import time
 import datetime
+import requests
+from requests.api import request
+from requests.structures import CaseInsensitiveDict
+
+webservice = "http://localhost:81/WebService/api/"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5NTM3NzA3LCJleHAiOjE2MzEzMzc3MDd9.fYeKQ4RVCUsvyR5-NogaVKVXJmc9V9CrPLxlOzR7NXE"
+
+def getPertemuan():
+    url = webservice + "request/getpertemuan?device=1"
+
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+    headers["Authorization"] = bearer
+
+    resp = requests.get(url, headers=headers)
+    return resp
+
+def updateKehadiran(nama): 
+    r = getPertemuan()
+    url = webservice + "request/hadir"
+    myobj = {
+        'nama' : str(nama),
+        'pertemuan' : r.json()['id_pertemuan']
+    }
+
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "application/json"
+    headers["Authorization"] = bearer
+
+    x = requests.post(url, data=myobj, headers=headers)
+    return x
+
 #SetUp Port Kameranya
 portCamera = 0
+
 # images properties
 def plt_show(image, title=""):
     if len(image.shape) == 3:
@@ -141,7 +174,7 @@ timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
 
 # mask detection and face recognition
 while True: 
- 
+    #Cek Penggunaan Masker
     frame1 = webcam.get_frame()
     mask = detector_mask.detectMultiScale(frame1, 
                                  scaleFactor=1.2, 
@@ -152,10 +185,13 @@ while True:
     for(x1,y1,x2,y2) in mask:
         cv2.rectangle(frame1,(x1,y1),(x1+x2,y1+y2),(0,255,0),2)
         cv2.putText(frame1, 'Pakai Masker',(x1, y1+y2 + 30), cv2.FONT_HERSHEY_PLAIN, 1.5, (255,255,255), 2)
+        cv2.putText(frame1, "Selanjutnya Wajah", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
     
-    faces_coord = detector.detect(frame1, False) # detect more than one face
+    faces_coord = detector.detect(frame1, False) #deteksi lebih dari satu wajah
     col_names =  ['Nama','Tgl','Jam']
     attendance = pd.DataFrame(columns = col_names)
+
+    #Cek Face Recognition
     if len(faces_coord):
         faces = normalize_faces(frame1, faces_coord) # norm pipeline
         for i, face in enumerate(faces): # for each detected face
@@ -164,25 +200,23 @@ while True:
             conf = collector.getMinDist()
             pred = collector.getMinLabel()
             threshold = 76 # eigen, fisher, lbph [mean 3375,1175,65] [high lbph 76]
-            print ("Prediction: " + labels_dic[pred].capitalize() + "\nNama: " + str(round(conf)))
+            print ("Skala Prediksi: " + labels_dic[pred].capitalize() + "\nNama: " + str(round(conf)))
             
             if conf < threshold: # apply threshold
                 cv2.putText(frame1, labels_dic[pred].capitalize(),
                             (faces_coord[i][0], faces_coord[i][1] - 20),
                             cv2.FONT_HERSHEY_DUPLEX, 1.0, (102, 255, 0), 1)
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
-                #Selanjutnya cek suhu pengguna
+                #Letak program cek suhu pengguna nya.
                 #While true
                 #Jika terdapat input suhu
                     #inisialisasi suhunya
                     #break go to ab
-                
-                #ab #Jika berhasil terverifikasi maka buat file attendaceout
-                Hour,Minute,Second=timeStamp.split(":")
-                fileName="absen\hadir_"+labels_dic[pred]+"-"+date+"_"+Hour+"-"+Minute+"-"+Second+".csv"    # write to output file (out)
-                attendance.to_csv(fileName,index=False)
-                #Selanjutnya lakukan input ke database dengan api bahwa pengguna hadir.
 
+                #Selanjutnya lakukan input ke database dengan api bahwa pengguna hadir.
+                x = updateKehadiran(labels_dic[pred])
+                cv2.putText(frame1, x.json()['message'], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
+                print(x.text)
             else:
                 cv2.putText(frame1, "Tidak Dikenali",
                     (faces_coord[i][0], faces_coord[i][1] - 10),

@@ -44,7 +44,7 @@ class App:
         GLabel_407["font"] = ft
         GLabel_407["fg"] = "#000000"
         GLabel_407["justify"] = "center"
-        GLabel_407["text"] = "Murphytech"
+        GLabel_407["text"] = "Ludaring"
         GLabel_407.place(x=120,y=50,width=150,height=30)
 
     def GButton_890_command(self):

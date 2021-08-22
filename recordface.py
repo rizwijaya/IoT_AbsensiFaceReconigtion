@@ -142,6 +142,8 @@ if not os.path.exists(folder):
         cv2.waitKey(50)
         timer += 50
     cv2.destroyAllWindows()
+    # Input ke db berdasarkan api dengan id foldernya.
+    
 else:
     print ("Pengguna sudah terdaftar")
 
