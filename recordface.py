@@ -15,7 +15,8 @@ def plt_show(image, title=""):
     plt.show()
 
 
-webcam = cv2.VideoCapture(portCamera, cv2.CAP_DSHOW)
+#webcam = cv2.VideoCapture(portCamera) #Raspberry Mode
+webcam = cv2.VideoCapture(portCamera, cv2.CAP_DSHOW) #Untuk Pengembangan
 _, frame = webcam.read()
 webcam.release()
 plt_show(frame)  
@@ -39,7 +40,8 @@ faces_coord = detector.detectMultiScale(frame,
 # video camera
 class VideoCamera(object):
     def __init__(self, index=portCamera):
-        self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+        #self.video = cv2.VideoCapture(index) #Raspberry Mode
+        self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW) #Untuk pengembangan
         self.index = index
         print (self.video.isOpened())
 

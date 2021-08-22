@@ -49,11 +49,11 @@ class App:
 
     def GButton_890_command(self):
         print("Lakukan Absensi")
-        os.system('python absensi.py')
+        os.system('python absensi.py') #Sesuaikan sama systemnya
 
     def GButton_558_command(self):
         print("Record Face ID Pengguna")
-        os.system('python recordface.py')
+        os.system('python recordface.py') #Sesuaikan sama systemnya
 
 if __name__ == "__main__":
     root = tk.Tk()

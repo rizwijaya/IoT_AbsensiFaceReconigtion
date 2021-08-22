@@ -70,7 +70,8 @@ class FaceDetector(object):
 # video camera
 class VideoCamera(object):
     def __init__(self, index=portCamera):
-        self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+        #self.video = cv2.VideoCapture(index) #Raspberry Mode
+        self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW) #Untuk Pengembangan
         self.index = index
         print (self.video.isOpened())
 
