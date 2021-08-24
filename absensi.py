@@ -8,6 +8,8 @@ import datetime
 import requests
 from requests.api import request
 from requests.structures import CaseInsensitiveDict
+from smbus2 import SMBus
+from mlx90614 import MLX90614
 
 webservice = "http://localhost:81/WebService/api/"
 bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5NTM3NzA3LCJleHAiOjE2MzEzMzc3MDd9.fYeKQ4RVCUsvyR5-NogaVKVXJmc9V9CrPLxlOzR7NXE"
@@ -208,8 +210,16 @@ while True:
                             (faces_coord[i][0], faces_coord[i][1] - 20),
                             cv2.FONT_HERSHEY_DUPLEX, 1.0, (102, 255, 0), 1)
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
+                
                 #Letak program cek suhu pengguna nya.
+                bus = SMBus(1)
+                sensor = MLX90614(bus, address=0x5A)
+                suhuSekitar = sensor.get_ambient()
+                suhuObyek = sensor.get_object_1()
+                bus.close() 
+                
                 #While true
+                
                 #Jika terdapat input suhu
                     #inisialisasi suhunya
                     #break go to ab
