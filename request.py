@@ -5,7 +5,7 @@ import subprocess
 from datetime import datetime
 
 webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5ODk2OTUwLCJleHAiOjE2MzE2OTY5NTB9.OnGR66_y9AJGDfSZrbuS7nPo78XlBm4eBWbmftcBKsM"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
 
 def getdevice():
     url = webservice + "request/cekdevice?device=1"
@@ -13,6 +13,7 @@ def getdevice():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
+    headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -24,6 +25,7 @@ def updateServer(id):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
+    headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
 
     x = requests.post(url, data=myobj, headers=headers)
     return x.text
@@ -42,12 +44,12 @@ def main():
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '1'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Jika jam dan waktu sesuai dengan yang ditentukan
                     print("Menjalankan system Absensi")
-                    absen = subprocess.Popen(["python3", "absensi.py"])
+                    absen = subprocess.Popen(["python", "absensi.py"])
                     i = 1
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '2'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")):
                     print("Menjalankan Face Record")
-                    face = subprocess.Popen(["python3", "recordface.py"])
+                    face = subprocess.Popen(["python", "recordface.py"])
                     i = 2
             elif(r.json()['sts_running'] == '2'): #Jika dimatikan manual
                 if(i == 1):

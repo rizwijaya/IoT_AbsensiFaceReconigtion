@@ -12,7 +12,7 @@ from requests.structures import CaseInsensitiveDict
 # from mlx90614 import MLX90614
 
 webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5ODk2OTUwLCJleHAiOjE2MzE2OTY5NTB9.OnGR66_y9AJGDfSZrbuS7nPo78XlBm4eBWbmftcBKsM"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
 
 def getPertemuan():
     url = webservice + "request/getpertemuan?device=1"
@@ -20,6 +20,7 @@ def getPertemuan():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
+    headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -35,7 +36,8 @@ def updateKehadiran(nama):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-
+    headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    
     x = requests.post(url, data=myobj, headers=headers)
     return x
 
