@@ -37,7 +37,7 @@ def updateKehadiran(nama):
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    
+
     x = requests.post(url, data=myobj, headers=headers)
     return x
 
@@ -205,7 +205,7 @@ while True:
             conf = collector.getMinDist()
             pred = collector.getMinLabel()
             threshold = 76 # eigen, fisher, lbph [mean 3375,1175,65] [high lbph 76]
-            print ("Skala Prediksi: " + labels_dic[pred].capitalize() + "\nNama: " + str(round(conf)))
+            print ("Nama: " + labels_dic[pred].capitalize() + "\nSkala Prediksi: " + str(round(conf)))
             
             if conf < threshold: # apply threshold
                 cv2.putText(frame1, labels_dic[pred].capitalize(),
