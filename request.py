@@ -42,12 +42,12 @@ def main():
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '1'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Jika jam dan waktu sesuai dengan yang ditentukan
                     print("Menjalankan system Absensi")
-                    absen = subprocess.Popen(["python", "absensi.py"])
+                    absen = subprocess.Popen(["python3", "absensi.py"])
                     i = 1
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '2'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")):
                     print("Menjalankan Face Record")
-                    face = subprocess.Popen(["python", "recordface.py"])
+                    face = subprocess.Popen(["python3", "recordface.py"])
                     i = 2
             elif(r.json()['sts_running'] == '2'): #Jika dimatikan manual
                 if(i == 1):
