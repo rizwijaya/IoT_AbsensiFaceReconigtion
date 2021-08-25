@@ -4,8 +4,8 @@ from requests.structures import CaseInsensitiveDict
 import subprocess
 from datetime import datetime
 
-webservice = "http://localhost:81/WebService/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5NTM3NzA3LCJleHAiOjE2MzEzMzc3MDd9.fYeKQ4RVCUsvyR5-NogaVKVXJmc9V9CrPLxlOzR7NXE"
+webservice = "http://ludaringin.tech/api/"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5ODk2OTUwLCJleHAiOjE2MzE2OTY5NTB9.OnGR66_y9AJGDfSZrbuS7nPo78XlBm4eBWbmftcBKsM"
 
 def getdevice():
     url = webservice + "request/cekdevice?device=1"

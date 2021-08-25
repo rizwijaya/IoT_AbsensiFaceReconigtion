@@ -8,11 +8,11 @@ import datetime
 import requests
 from requests.api import request
 from requests.structures import CaseInsensitiveDict
-from smbus2 import SMBus
-from mlx90614 import MLX90614
+# from smbus2 import SMBus
+# from mlx90614 import MLX90614
 
-webservice = "http://localhost:81/WebService/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5NTM3NzA3LCJleHAiOjE2MzEzMzc3MDd9.fYeKQ4RVCUsvyR5-NogaVKVXJmc9V9CrPLxlOzR7NXE"
+webservice = "http://ludaringin.tech/api/"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5ODk2OTUwLCJleHAiOjE2MzE2OTY5NTB9.OnGR66_y9AJGDfSZrbuS7nPo78XlBm4eBWbmftcBKsM"
 
 def getPertemuan():
     url = webservice + "request/getpertemuan?device=1"
@@ -212,11 +212,11 @@ while True:
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
                 
                 #Letak program cek suhu pengguna nya.
-                bus = SMBus(1)
-                sensor = MLX90614(bus, address=0x5A)
-                suhuSekitar = sensor.get_ambient()
-                suhuObyek = sensor.get_object_1()
-                bus.close() 
+                # bus = SMBus(1)
+                # sensor = MLX90614(bus, address=0x5A)
+                # suhuSekitar = sensor.get_ambient()
+                # suhuObyek = sensor.get_object_1()
+                # bus.close() 
                 
                 #While true
                 
