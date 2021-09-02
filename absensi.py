@@ -105,7 +105,7 @@ def normalize_intensity(images):
         is_color = len(image.shape) == 3 
         if is_color:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        images_norm.append(cv2.equalizeHist(image))
+        images_norm.append(cv2.equalizeHist(image)) #Menyesuaikan kontrass menggunakan histogram citra
     return images_norm
 
 # resize images
@@ -135,7 +135,8 @@ def draw_rectangle(image, coords):
         w_rm = int(0.2 * w / 2) 
         cv2.rectangle(image, (x + w_rm, y), (x + w - w_rm, y + h), 
                               (102, 255, 0), 1)
-# acquire images from dataset
+
+# dapatkan gambar dari kumpulan data
 def collect_dataset():
     images = []
     labels = []
@@ -191,7 +192,7 @@ while True:
         cv2.rectangle(frame1,(x1,y1),(x1+x2,y1+y2),(0,255,0),2)
         cv2.putText(frame1, 'Pakai Masker',(x1, y1+y2 + 30), cv2.FONT_HERSHEY_PLAIN, 1.5, (255,255,255), 2)
         cv2.putText(frame1, "Selanjutnya Wajah", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
-    
+     
     faces_coord = detector.detect(frame1, False) #deteksi lebih dari satu wajah
     col_names =  ['Nama','Tgl','Jam']
     attendance = pd.DataFrame(columns = col_names)
@@ -199,15 +200,15 @@ while True:
     #Cek Face Recognition
     if len(faces_coord):
         faces = normalize_faces(frame1, faces_coord) # norm pipeline
-        for i, face in enumerate(faces): # for each detected face
+        for i, face in enumerate(faces): # untuk setiap wajah yang terdeteksi
             collector = cv2.face.StandardCollector_create()
-            rec_lbph.predict_collect(face, collector)  # chosen algorithm
+            rec_lbph.predict_collect(face, collector)  # algoritma yang dipilih
             conf = collector.getMinDist()
             pred = collector.getMinLabel()
             threshold = 76 # eigen, fisher, lbph [mean 3375,1175,65] [high lbph 76]
             print ("Nama: " + labels_dic[pred].capitalize() + "\nSkala Prediksi: " + str(round(conf)))
             
-            if conf < threshold: # apply threshold
+            if conf < threshold: # menerapkan ambang batas
                 cv2.putText(frame1, labels_dic[pred].capitalize(),
                             (faces_coord[i][0], faces_coord[i][1] - 20),
                             cv2.FONT_HERSHEY_DUPLEX, 1.0, (102, 255, 0), 1)
