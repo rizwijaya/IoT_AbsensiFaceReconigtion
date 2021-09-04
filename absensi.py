@@ -8,12 +8,26 @@ import datetime
 import requests
 from requests.api import request
 from requests.structures import CaseInsensitiveDict
-# from smbus2 import SMBus
-# from mlx90614 import MLX90614
+from smbus2 import SMBus
+from mlx90614 import MLX90614
+import subprocess
 
 webservice = "http://ludaringin.tech/api/"
 bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
 
+def deteksiSuhu():
+    bus = SMBus(1)
+    sensor = MLX90614(bus, address=0x5A)
+    suhuSekitar = sensor.get_ambient()
+    suhuObyek = sensor.get_object_1()
+    if suhuObyek < 37:
+      bukaPintu  = subprocess.Popen(["python", "solenoid.py"]) # sesuaikan versi python
+      hasil = 1
+    else :
+        hasil = 0
+    bus.close()
+    return hasil
+    
 def getPertemuan():
     url = webservice + "request/getpertemuan?device=1"
 
@@ -177,7 +191,7 @@ webcam = VideoCamera(portCamera)
 ts = time.time()      
 date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
 timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-
+label2 = ""
 # mask detection and face recognition
 while True: 
     #Cek Penggunaan Masker
@@ -213,24 +227,16 @@ while True:
                             (faces_coord[i][0], faces_coord[i][1] - 20),
                             cv2.FONT_HERSHEY_DUPLEX, 1.0, (102, 255, 0), 1)
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
-                
-                #Letak program cek suhu pengguna nya.
-                # bus = SMBus(1)
-                # sensor = MLX90614(bus, address=0x5A)
-                # suhuSekitar = sensor.get_ambient()
-                # suhuObyek = sensor.get_object_1()
-                # bus.close() 
-                
-                #While true
-                
-                #Jika terdapat input suhu
-                    #inisialisasi suhunya
-                    #break go to ab
-
-                #Selanjutnya lakukan input ke database dengan api bahwa pengguna hadir.
-                x = updateKehadiran(labels_dic[pred])
-                cv2.putText(frame1, x.json()['message'], (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
-                print(x.text)
+                if(label2 != labels_dic[pred]): #Letak program cek suhu pengguna nya.
+                    suhu = deteksiSuhu(labels_dic[pred])
+                    if suhu == 1: #Diperbolehkan masuk
+                        x = updateKehadiran(labels_dic[pred])
+                        displaySuhu = x.json()['message']
+                    elif suhu == 0: #Jika suhu tidak terpenuhi
+                        displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
+                label2 = labels_dic[pred]
+                cv2.putText(frame1, displaySuhu, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
+                #print(x.text)
             else:
                 cv2.putText(frame1, "Tidak Dikenali",
                     (faces_coord[i][0], faces_coord[i][1] - 10),
