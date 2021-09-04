@@ -20,8 +20,9 @@ def deteksiSuhu():
     sensor = MLX90614(bus, address=0x5A)
     suhuSekitar = sensor.get_ambient()
     suhuObyek = sensor.get_object_1()
-    if suhuObyek < 37:
-      bukaPintu  = subprocess.Popen(["python", "solenoid.py"]) # sesuaikan versi python
+    print ("Suhu Obyek :", suhuObyek)
+    if suhuObyek > 30 and suhuObyek < 37:
+      bukaPintu  = subprocess.Popen(["python3", "solenoid.py"]) # sesuaikan versi python
       hasil = 1
     else :
         hasil = 0
@@ -88,8 +89,8 @@ class FaceDetector(object):
 # video camera
 class VideoCamera(object):
     def __init__(self, index=portCamera):
-        #self.video = cv2.VideoCapture(index) #Raspberry Mode
-        self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW) #Untuk Pengembangan
+        self.video = cv2.VideoCapture(index) #Raspberry Mode
+        #self.video = cv2.VideoCapture(index, cv2.CAP_DSHOW) #Untuk Pengembangan
         self.index = index
         print (self.video.isOpened())
 
@@ -227,13 +228,14 @@ while True:
                             (faces_coord[i][0], faces_coord[i][1] - 20),
                             cv2.FONT_HERSHEY_DUPLEX, 1.0, (102, 255, 0), 1)
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
-                if(label2 != labels_dic[pred]): #Letak program cek suhu pengguna nya.
-                    suhu = deteksiSuhu(labels_dic[pred])
-                    if suhu == 1: #Diperbolehkan masuk
-                        x = updateKehadiran(labels_dic[pred])
-                        displaySuhu = x.json()['message']
-                    elif suhu == 0: #Jika suhu tidak terpenuhi
-                        displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
+                #if(label2 != labels_dic[pred]): #Letak program cek suhu pengguna nya.
+                suhu = deteksiSuhu()
+                if suhu == 1: #Diperbolehkan masuk
+                        #x = updateKehadiran(labels_dic[pred])
+                        #displaySuhu = x.json()['message']
+                    displaySuhu = "absensi berhasil"
+                elif suhu == 0: #Jika suhu tidak terpenuhi
+                    displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
                 label2 = labels_dic[pred]
                 cv2.putText(frame1, displaySuhu, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
                 #print(x.text)
