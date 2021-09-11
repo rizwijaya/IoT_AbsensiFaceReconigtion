@@ -120,7 +120,7 @@ print("\nStreaming video using device...\n")
 if video:
     cap = cv2.VideoCapture(video)
 else:
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
 frame_no = 0
 
 while True:

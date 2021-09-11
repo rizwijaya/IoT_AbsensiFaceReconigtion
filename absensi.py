@@ -12,10 +12,10 @@ from smbus2 import SMBus
 from mlx90614 import MLX90614
 import subprocess
 
-webservice = "http://localhost:81/WebService/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
-# webservice = "http://ludaringin.tech/api/"
-# bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
+# webservice = "http://localhost:81/WebService/api/"
+# bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
+webservice = "http://ludaringin.tech/api/"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
 id = 1
 
 def deteksiSuhu():
@@ -33,7 +33,8 @@ def getPertemuan():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -49,7 +50,8 @@ def updateKehadiran(nama):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
 
     x = requests.post(url, data=myobj, headers=headers)
     return x
@@ -228,12 +230,15 @@ while True:
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
                 if(label2 != labels_dic[pred]): #Letak program cek suhu pengguna nya.
                     suhuObyek = deteksiSuhu()
-                    if suhuObyek > 30 and suhuObyek < 37:
+                    print("suhunya: ", suhuObyek)
+                    #if suhuObyek > 30 and suhuObyek < 37:
+                    if suhuObyek > 28 and suhuObyek < 37:
                         x = updateKehadiran(labels_dic[pred])
-                        if(x.json()['bukapintu'] == 1): #Kondisi jika pintu terbuka
-                            bukaPintu  = subprocess.Popen(["python", "solenoid.py"]) # sesuaikan versi python 
+                        if(x.json()['bukaPintu'] == 1): #Kondisi jika pintu terbuka
+                            #bukaPintu  = subprocess.Popen(["python", "solenoid.py"]) # sesuaikan versi python 
+                            bukaPintu  = subprocess.Popen(["python3", "solenoid.py"]) # sesuaikan versi python 
                             displaySuhu = "Absensi berhasil, silahkan masuk kelas."
-                        elif(x.json()['bukapintu'] == 0):  #kondisi jika pintu ditutup
+                        elif(x.json()['bukaPintu'] == 0):  #kondisi jika pintu ditutup
                             displaySuhu = "Absensi berhasil, kelas sudah penuh dilarang masuk."
                     else:
                         displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
