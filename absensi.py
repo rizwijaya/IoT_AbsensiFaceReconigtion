@@ -12,8 +12,11 @@ from smbus2 import SMBus
 from mlx90614 import MLX90614
 import subprocess
 
-webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
+webservice = "http://localhost:81/WebService/api/"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
+# webservice = "http://ludaringin.tech/api/"
+# bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
+id = 1
 
 def deteksiSuhu():
     bus = SMBus(1)
@@ -21,16 +24,11 @@ def deteksiSuhu():
     suhuSekitar = sensor.get_ambient()
     suhuObyek = sensor.get_object_1()
     print ("Suhu Obyek :", suhuObyek)
-    if suhuObyek > 30 and suhuObyek < 37:
-      bukaPintu  = subprocess.Popen(["python3", "solenoid.py"]) # sesuaikan versi python
-      hasil = 1
-    else :
-        hasil = 0
     bus.close()
-    return hasil
+    return suhuObyek
     
 def getPertemuan():
-    url = webservice + "request/getpertemuan?device=1"
+    url = webservice + "request/getpertemuan?device=" + str(id)
 
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
@@ -228,14 +226,17 @@ while True:
                             (faces_coord[i][0], faces_coord[i][1] - 20),
                             cv2.FONT_HERSHEY_DUPLEX, 1.0, (102, 255, 0), 1)
                 attendance.loc[len(attendance)] = [labels_dic[pred],date,timeStamp]
-                #if(label2 != labels_dic[pred]): #Letak program cek suhu pengguna nya.
-                suhu = deteksiSuhu()
-                if suhu == 1: #Diperbolehkan masuk
-                        #x = updateKehadiran(labels_dic[pred])
-                        #displaySuhu = x.json()['message']
-                    displaySuhu = "absensi berhasil"
-                elif suhu == 0: #Jika suhu tidak terpenuhi
-                    displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
+                if(label2 != labels_dic[pred]): #Letak program cek suhu pengguna nya.
+                    suhuObyek = deteksiSuhu()
+                    if suhuObyek > 30 and suhuObyek < 37:
+                        x = updateKehadiran(labels_dic[pred])
+                        if(x.json()['bukapintu'] == 1): #Kondisi jika pintu terbuka
+                            bukaPintu  = subprocess.Popen(["python", "solenoid.py"]) # sesuaikan versi python 
+                            displaySuhu = "Absensi berhasil, silahkan masuk kelas."
+                        elif(x.json()['bukapintu'] == 0):  #kondisi jika pintu ditutup
+                            displaySuhu = "Absensi berhasil, kelas sudah penuh dilarang masuk."
+                    else:
+                        displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
                 label2 = labels_dic[pred]
                 cv2.putText(frame1, displaySuhu, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
                 #print(x.text)
