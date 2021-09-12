@@ -3,11 +3,12 @@ from requests.api import request
 from requests.structures import CaseInsensitiveDict
 import subprocess
 from datetime import datetime
+import os
 
 # webservice = "http://localhost:81/WebService/api/"
 # bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
 webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxNDEyMjg0LCJleHAiOjE2MzMyMTIyODR9.BqtrZeb59_L08fg_b3cDR-DVjIPLZ1wAR2R5K2v7dwg"
 device = 1
 
 def resetPintu():
@@ -28,7 +29,7 @@ def getdevice():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    # headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
     headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
@@ -41,7 +42,7 @@ def updateServer(id):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    # headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
     headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
 
     x = requests.post(url, data=myobj, headers=headers)
@@ -53,7 +54,7 @@ def getMatkul(pertemuan):
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    # headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
     headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
@@ -65,7 +66,7 @@ def cekPintu():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    # headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
     headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
@@ -78,28 +79,31 @@ def resetPintu():
     headers = CaseInsensitiveDict()
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
-    # headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
     headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
     x = requests.post(url, data=myobj, headers=headers)
     return x.text
 
 def main():
     i = 0
+    #Full Screen Mode
+    os.system("python fullscreen.py") #windows
     #Jalankan Mask detectionnya.
-    # maskdetection = subprocess.Popen(["python", "mask_alert.py"]) #windows
-    maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
+    os.system("python mask_alert.py") #windows
+    #maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
     #Lakukan request
     while True:
         r = getdevice()
         reset = cekPintu()
         now = datetime.now()
-        if(reset.json()['bukapintu'] == 1):
-            dataMatkul = getMatkul(r.json()['id_pertemuan'])
-            if(dataMatkul.json()['end_kuliah'] == now.strftime("%Y-%m-%d %H:%M:%S")):
-                resetPintu() #Kirimkan request reset bukapintu
-                print("Melakukan reset Data")
-            else:
-                print("Tidak direset")
+        if(reset.json()['status'] != FALSE):
+            if(reset.json()['bukapintu'] == 1):
+                dataMatkul = getMatkul(r.json()['id_pertemuan'])
+                if(dataMatkul.json()['end_kuliah'] == now.strftime("%Y-%m-%d %H:%M:%S")):
+                    resetPintu() #Kirimkan request reset bukapintu
+                    print("Melakukan reset Data")
+                else:
+                    print("Tidak direset")
         if(r.status_code == 200):
             #print(r.json())
             if(r.json()['end_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Mematikan perangkat otomatis
@@ -109,14 +113,14 @@ def main():
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '1'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Jika jam dan waktu sesuai dengan yang ditentukan
                     print("Menjalankan system Absensi")
-                    #absen = subprocess.Popen(["python", "absensi.py"]) # windows
-                    absen = subprocess.Popen(["python3", "absensi.py"]) #raspberry pi
+                    absen = subprocess.Popen(["python", "absensi.py"]) # windows
+                    #absen = subprocess.Popen(["python3", "absensi.py"]) #raspberry pi
                     i = 1
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '2'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")):
                     print("Menjalankan Face Record")
-                    #face = subprocess.Popen(["python", "recordface.py"]) # windows
-                    face = subprocess.Popen(["python3", "recordface.py"]) # raspberry pi
+                    face = subprocess.Popen(["python", "recordface.py"]) # windows
+                    #face = subprocess.Popen(["python3", "recordface.py"]) # raspberry pi
                     i = 2
             elif(r.json()['sts_running'] == '2'): #Jika dimatikan manual
                 if(i == 1):

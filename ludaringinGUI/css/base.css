@@ -1,0 +1,36 @@
+
+
+.masuk {
+	padding: auto;
+	margin: auto;
+	background: url("../img/loginHome.jpg");
+	/* box-shadow: inset 0 0 0 2000px rgba(220, 204, 171, 0.8); */
+	box-shadow: inset 0 0 0 2000px rgba(23, 43, 77, 0.6);
+	object-fit: contain;	
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.loginCard {
+	background: rgba(255, 255, 255, 0.55);
+	backdrop-filter: blur(10px) saturate(125%);
+	border-radius: 30px;
+}
+
+::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: white;
+	opacity: 1;
+	/* Firefox */
+}
+
+:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
+	color: white;
+}
+
+::-ms-input-placeholder {
+	/* Microsoft Edge */
+	color: white;
+}

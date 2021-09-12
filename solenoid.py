@@ -14,7 +14,7 @@ def solonoid_closed(pin):  # Pintu tertutup
 def main():
 
     solonoid_open(out)
-    time.sleep(1)
+    time.sleep(3)
 
 if __name__ == '__main__' :
     try :

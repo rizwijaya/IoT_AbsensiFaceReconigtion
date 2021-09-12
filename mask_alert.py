@@ -222,14 +222,14 @@ while True:
         cv2.putText(frame, 'Depth: {i} ft'.format(i=round(pos_dict[i][2]/30.48,4)), (startX, y),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLOR, 2)
 
-    cv2.namedWindow('Frame',cv2.WINDOW_NORMAL)
+    #cv2.namedWindow('Frame',cv2.WINDOW_NORMAL)
     # Tampilkan bingkai
-    cv2.imshow('Frame', frame)
-    cv2.resizeWindow('Frame',800,600)
+    # cv2.imshow('Frame', frame)
+    # cv2.resizeWindow('Frame',800,600)
 
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord("q"): #Tekan `q` untuk keluar
-        break
+    # key = cv2.waitKey(1) & 0xFF
+    # if key == ord("q"): #Tekan `q` untuk keluar
+    #     break
 
 cap.release()
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()

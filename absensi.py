@@ -15,7 +15,7 @@ import subprocess
 # webservice = "http://localhost:81/WebService/api/"
 # bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
 webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjI5OTAwNzQ4LCJleHAiOjE2MzE3MDA3NDh9.-gttj3xEOu1GkRXCspoPa7q1ws-uXlqpPLRAlIZahE0"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxNDEyMjg0LCJleHAiOjE2MzMyMTIyODR9.BqtrZeb59_L08fg_b3cDR-DVjIPLZ1wAR2R5K2v7dwg"
 id = 1
 
 def deteksiSuhu():
@@ -206,7 +206,7 @@ while True:
     for(x1,y1,x2,y2) in mask:
         cv2.rectangle(frame1,(x1,y1),(x1+x2,y1+y2),(0,255,0),2)
         cv2.putText(frame1, 'Pakai Masker',(x1, y1+y2 + 30), cv2.FONT_HERSHEY_PLAIN, 1.5, (255,255,255), 2)
-        cv2.putText(frame1, "Selanjutnya Wajah", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
+        cv2.putText(frame1, "Absen Wajah", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
      
     faces_coord = detector.detect(frame1, False) #deteksi lebih dari satu wajah
     col_names =  ['Nama','Tgl','Jam']
@@ -237,11 +237,11 @@ while True:
                         if(x.json()['bukaPintu'] == 1): #Kondisi jika pintu terbuka
                             #bukaPintu  = subprocess.Popen(["python", "solenoid.py"]) # sesuaikan versi python 
                             bukaPintu  = subprocess.Popen(["python3", "solenoid.py"]) # sesuaikan versi python 
-                            displaySuhu = "Absensi berhasil, silahkan masuk kelas."
+                            displaySuhu = "Berhasil, silahkan masuk kelas."
                         elif(x.json()['bukaPintu'] == 0):  #kondisi jika pintu ditutup
-                            displaySuhu = "Absensi berhasil, kelas sudah penuh dilarang masuk."
+                            displaySuhu = "Berhasil, kelas sudah penuh dilarang masuk."
                     else:
-                        displaySuhu = "Anda dalam kategori tidak fit, tidak diperkenankan masuk"
+                        displaySuhu = "Anda tidak fit, tidak diperkenankan masuk"
                 label2 = labels_dic[pred]
                 cv2.putText(frame1, displaySuhu, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2, cv2.LINE_4)
                 #print(x.text)
@@ -252,6 +252,9 @@ while True:
         draw_rectangle(frame1, faces_coord) # rectangle around face
     cv2.putText(frame1, "ESC to exit", (5, frame1.shape[0] - 5),
     cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+    #Fullscreen mode
+    cv2.namedWindow("Sistem Absensi Face Recognitions", cv2.WND_PROP_FULLSCREEN)
+    cv2.setWindowProperty("Sistem Absensi Face Recognitions",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
     cv2.imshow("Sistem Absensi Face Recognitions", frame1) # live feed in external
     if cv2.waitKey(33) & 0xFF == 27:
         cv2.destroyAllWindows()
