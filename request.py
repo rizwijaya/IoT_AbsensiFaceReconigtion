@@ -87,13 +87,11 @@ def resetPintu():
 def main():
     i = 0
     #Full Screen Mode
-    #os.system("python fullscreen.py") #windows
-    #os.system("python3 fullscreen.py") #rasp
-    layar = subprocess.Popen(["python3", "fullscreen.py"])
-    #Jalankan Mask detectionnya.
-    #os.system("python mask_alert.py") #windows
-    #os.system("python3 mask_alert.py") #rasp
-    maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
+    subprocess.call(['gnome-terminal', '-x', 'python3 fullscreen.py'])
+    # #Jalankan Mask detectionnya.
+    subprocess.call(['gnome-terminal', '-x', 'python3 mask_alert.py'])
+    # layar = subprocess.Popen(["python3", "fullscreen.py"])
+    # maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
     #Lakukan request
     while True:
         r = getdevice()
