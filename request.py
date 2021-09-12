@@ -87,23 +87,26 @@ def resetPintu():
 def main():
     i = 0
     #Full Screen Mode
-    os.system("python fullscreen.py") #windows
+    #os.system("python fullscreen.py") #windows
+    #os.system("python3 fullscreen.py") #rasp
+    layar = subprocess.Popen(["python3", "fullscreen.py"])
     #Jalankan Mask detectionnya.
-    os.system("python mask_alert.py") #windows
-    #maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
+    #os.system("python mask_alert.py") #windows
+    #os.system("python3 mask_alert.py") #rasp
+    maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
     #Lakukan request
     while True:
         r = getdevice()
         reset = cekPintu()
         now = datetime.now()
-        if(reset.json()['status'] != FALSE):
-            if(reset.json()['bukapintu'] == 1):
-                dataMatkul = getMatkul(r.json()['id_pertemuan'])
-                if(dataMatkul.json()['end_kuliah'] == now.strftime("%Y-%m-%d %H:%M:%S")):
-                    resetPintu() #Kirimkan request reset bukapintu
-                    print("Melakukan reset Data")
-                else:
-                    print("Tidak direset")
+        #if(reset.json()['status'] != False):
+        if(reset.json()['bukapintu'] == 1):
+            dataMatkul = getMatkul(r.json()['id_pertemuan'])
+            if(dataMatkul.json()['end_kuliah'] == now.strftime("%Y-%m-%d %H:%M:%S")):
+                resetPintu() #Kirimkan request reset bukapintu
+                print("Melakukan reset Data")
+            else:
+                print("Tidak direset")
         if(r.status_code == 200):
             #print(r.json())
             if(r.json()['end_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Mematikan perangkat otomatis
@@ -113,22 +116,26 @@ def main():
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '1'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Jika jam dan waktu sesuai dengan yang ditentukan
                     print("Menjalankan system Absensi")
-                    absen = subprocess.Popen(["python", "absensi.py"]) # windows
-                    #absen = subprocess.Popen(["python3", "absensi.py"]) #raspberry pi
+                    layar.terminate()
+                    #absen = subprocess.Popen(["python", "absensi.py"]) # windows
+                    absen = subprocess.Popen(["python3", "absensi.py"]) #raspberry pi
                     i = 1
             elif(r.json()['sts_running'] == '1' and r.json()['sts_command'] == '2'):
                 if(i == 0 and r.json()['mulai_run'] == now.strftime("%Y-%m-%d %H:%M:%S")):
                     print("Menjalankan Face Record")
-                    face = subprocess.Popen(["python", "recordface.py"]) # windows
-                    #face = subprocess.Popen(["python3", "recordface.py"]) # raspberry pi
+                    layar.terminate()
+                    #face = subprocess.Popen(["python", "recordface.py"]) # windows
+                    face = subprocess.Popen(["python3", "recordface.py"]) # raspberry pi
                     i = 2
             elif(r.json()['sts_running'] == '2'): #Jika dimatikan manual
                 if(i == 1):
                     i = 0
                     absen.terminate()
+                    layar = subprocess.Popen(["python3", "fullscreen.py"])
                 elif(i == 2):
                     i = 0
                     face.terminate()
+                    layar = subprocess.Popen(["python3", "fullscreen.py"])
                 print("Proses pada perangkat dihentikan")
             else:
                 print("Tidak ada kelas")
@@ -136,10 +143,12 @@ def main():
             if(i == 1):
                 i = 0
                 absen.terminate()
+                layar = subprocess.Popen(["python3", "fullscreen.py"])
                 print("Proses pada perangkat dihentikan")
             elif(i == 2):
                 i = 0
                 face.terminate()
+                layar = subprocess.Popen(["python3", "fullscreen.py"])
                 print("Proses pada perangkat dihentikan")
             print("Tidak ada absensi")
 
