@@ -15,7 +15,7 @@ import subprocess
 # webservice = "http://localhost:81/WebService/api/"
 # bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
 webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxNDEyMjg0LCJleHAiOjE2MzMyMTIyODR9.BqtrZeb59_L08fg_b3cDR-DVjIPLZ1wAR2R5K2v7dwg"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxNTExMzEyLCJleHAiOjE2MzMzMTEzMTJ9.O94Uo8L4ddGnLssdOiIqGkrvOrloUYZq-069Mophxjw"
 id = 1
 
 def deteksiSuhu():
@@ -34,7 +34,8 @@ def getPertemuan():
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -51,7 +52,8 @@ def updateKehadiran(nama):
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
 
     x = requests.post(url, data=myobj, headers=headers)
     return x

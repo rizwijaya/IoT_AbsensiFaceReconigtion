@@ -8,8 +8,9 @@ import os
 # webservice = "http://localhost:81/WebService/api/"
 # bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxMzM0ODc2LCJleHAiOjE2MzMxMzQ4NzZ9.YkHir7WyKAlKJZwf6TeYB3-eIVBGiKqFgU9IAdZrNy4"
 webservice = "http://ludaringin.tech/api/"
-bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxNDEyMjg0LCJleHAiOjE2MzMyMTIyODR9.BqtrZeb59_L08fg_b3cDR-DVjIPLZ1wAR2R5K2v7dwg"
+bearer = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJpenFpIiwiaWF0IjoxNjMxNTExMzEyLCJleHAiOjE2MzMzMTEzMTJ9.O94Uo8L4ddGnLssdOiIqGkrvOrloUYZq-069Mophxjw"
 device = 1
+
 
 def resetPintu():
     url = webservice + "request/resetpintu?device=" + str(device)
@@ -18,7 +19,8 @@ def resetPintu():
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -30,7 +32,8 @@ def getdevice():
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -43,7 +46,8 @@ def updateServer(id):
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
 
     x = requests.post(url, data=myobj, headers=headers)
     return x.text
@@ -55,7 +59,9 @@ def getMatkul(pertemuan):
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
+
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -67,7 +73,8 @@ def cekPintu():
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' # windows
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
 
     resp = requests.get(url, headers=headers)
     return resp
@@ -80,31 +87,37 @@ def resetPintu():
     headers["Accept"] = "application/json"
     headers["Authorization"] = bearer
     #headers["User-Agent"] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-    headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    #headers["User-Agent"] = 'Mozilla/5.0 (X11; CrOS armv7l 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.187 Safari/537.36' #Raspberry 
+    headers["User-Agent"] = 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/74.0.3729.157 Chrome/74.0.3729.157 Safari/537.36' #Raspberry 
+    
     x = requests.post(url, data=myobj, headers=headers)
     return x.text
 
 def main():
     i = 0
     #Full Screen Mode
-    subprocess.call(['gnome-terminal', '-x', 'python3 fullscreen.py'])
+    #subprocess.call(['lxterminal', '-e', 'python3 fullscreen.py'])
+    #subprocess.call('lxterminal --command="python3 fullscreen.py"', cwd='/home/pi/gemastik/IoT_AbsensiFaceReconigtion', shell=True)
     # #Jalankan Mask detectionnya.
-    subprocess.call(['gnome-terminal', '-x', 'python3 mask_alert.py'])
-    # layar = subprocess.Popen(["python3", "fullscreen.py"])
-    # maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
+    #subprocess.call(['lxterminal', '-e', 'python3 mask_alert.py'])
+    layar = subprocess.Popen(["python3", "fullscreen.py"])
+    #subprocess.call('lxterminal --command="python3 mask_alert.py"', cwd='/home/pi/gemastik/IoT_AbsensiFaceReconigtion', shell=True)
+    #subprocess.run("python3 fullscreen.py & python3 mask_aler.py", shell=True)
+    #layar = subprocess.Popen(["python3", "fullscreen.py"])
+    maskdetection = subprocess.Popen(["python3", "mask_alert.py"]) #raspberry
     #Lakukan request
     while True:
         r = getdevice()
         reset = cekPintu()
         now = datetime.now()
         #if(reset.json()['status'] != False):
-        if(reset.json()['bukapintu'] == 1):
-            dataMatkul = getMatkul(r.json()['id_pertemuan'])
-            if(dataMatkul.json()['end_kuliah'] == now.strftime("%Y-%m-%d %H:%M:%S")):
-                resetPintu() #Kirimkan request reset bukapintu
-                print("Melakukan reset Data")
-            else:
-                print("Tidak direset")
+        # if(reset.json()['bukapintu'] == 1):
+        #     dataMatkul = getMatkul(r.json()['id_pertemuan'])
+        #     if(dataMatkul.json()['end_kuliah'] == now.strftime("%Y-%m-%d %H:%M:%S")):
+        #         resetPintu() #Kirimkan request reset bukapintu
+        #         print("Melakukan reset Data")
+        #     else:
+        #         print("Tidak direset")
         if(r.status_code == 200):
             #print(r.json())
             if(r.json()['end_run'] == now.strftime("%Y-%m-%d %H:%M:%S")): #Mematikan perangkat otomatis
